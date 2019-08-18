@@ -56,6 +56,9 @@ libxss1 \
 libxtst6 \
 openssh-client
 
+RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m' && \
+sudo easy_install3 pip
+
 RUN echo -e '\033[36;1m ******* CLEANING ******** \033[0m' && \
 sudo apt-get --purge autoremove -y \
 curl
