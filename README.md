@@ -2,7 +2,6 @@
 
 <img src="https://framalibre.org/sites/default/files/leslogos/Visual_Studio_Code_1.18_icon.png" width="200" height="200"/>
 
-
 ## INDEX
 
 - [Badges](#BADGES)
@@ -11,11 +10,9 @@
 - [Install](#INSTALL)
 - [License](#LICENSE)
 
-
 ## BADGES
 
 [![pipeline status](https://gitlab.com/oda-alexandre/vscode/badges/master/pipeline.svg)](https://gitlab.com/oda-alexandre/vscode/commits/master)
-
 
 ## INTRODUCTION
 
@@ -31,18 +28,13 @@ Automatically updated on :
 
 - [docker hub public](https://hub.docker.com/r/alexandreoda/vscode/).
 
-
 ## PREREQUISITES
 
 Use [docker](https://www.docker.com)
 
-
 ## INSTALL
 
-```
-docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY alexandreoda/vscode
-```
-
+```docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY alexandreoda/vscode```
 
 ## LICENSE
 
