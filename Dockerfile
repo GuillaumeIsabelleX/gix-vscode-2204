@@ -6,7 +6,7 @@ ENV USER vscode
 ENV VERSION 1.38
 
 RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
-apt-get update && apt-get install -y --no-install-recommends \
+apt update && apt install -y --no-install-recommends \
 sudo \
 ca-certificates \
 apt-transport-https \
@@ -30,7 +30,7 @@ curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | su
 echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee -a /etc/apt/sources.list.d/vscode.list
 
 RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m' && \
-sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+sudo apt update && sudo apt install -y --no-install-recommends \
 code \
 git \
 python3 \
@@ -63,7 +63,7 @@ sudo easy_install3 pip
 RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
 curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
 sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list' && \
-sudo apt-get update && sudo apt-get install -y powershell
+sudo apt update && sudo apt install -y powershell
 
 RUN echo -e '\033[36;1m ******* CLEANING ******** \033[0m' && \
 sudo apt-get --purge autoremove -y \
