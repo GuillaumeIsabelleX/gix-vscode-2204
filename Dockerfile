@@ -3,7 +3,7 @@ FROM debian:stretch-slim
 LABEL authors https://www.oda-alexandre.com/
 
 ENV USER vscode
-ENV VERSION 1.38
+ENV VERSION 1.40
 
 RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
 apt update && apt install -y --no-install-recommends \
