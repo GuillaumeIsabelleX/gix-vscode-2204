@@ -4,11 +4,13 @@
 
 ## INDEX
 
-- [Badges](#BADGES)
-- [Introduction](#INTRODUCTION)
-- [Prerequisites](#PREREQUISITESITES)
-- [Install](#INSTALL)
-- [License](#LICENSE)
+- [vscode](#vscode)
+  - [INDEX](#index)
+  - [BADGES](#badges)
+  - [INTRODUCTION](#introduction)
+  - [PREREQUISITES](#prerequisites)
+  - [INSTALL](#install)
+  - [LICENSE](#license)
 
 ## BADGES
 
@@ -34,7 +36,7 @@ Use [docker](https://www.docker.com)
 
 ## INSTALL
 
-```docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY alexandreoda/vscode```
+```docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY --privileged alexandreoda/vscode```
 
 ## LICENSE
 
