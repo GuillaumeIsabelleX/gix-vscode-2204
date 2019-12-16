@@ -36,7 +36,7 @@ Use [docker](https://www.docker.com)
 
 ## INSTALL
 
-```docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY --privileged alexandreoda/vscode```
+```docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY --privileged --network host alexandreoda/vscode```
 
 ## LICENSE
 
