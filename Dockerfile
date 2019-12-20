@@ -61,7 +61,8 @@ RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m'; \
   libxrender1 \
   libxss1 \
   libxtst6 \
-  openssh-client
+  openssh-client \
+  php
 
 RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m'; \
   sudo easy_install3 pip
