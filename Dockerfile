@@ -7,7 +7,7 @@ ENV HOME /home/${USER}
 ENV LOCALES fr_FR.UTF-8
 ENV VERSION 1.40
 
-RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m'; \
+RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
   apt-get update && apt-get install -y --no-install-recommends \
   locales \
   sudo \
@@ -17,12 +17,12 @@ RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m'; \
   gnupg \
   curl
 
-RUN echo -e '\033[36;1m ******* CHANGE LOCALES ******** \033[0m'; \
+RUN echo -e '\033[36;1m ******* CHANGE LOCALES ******** \033[0m' && \
   locale-gen ${LOCALES}
   
-RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m'; \
-  useradd -d ${HOME} -m ${USER}; \
-  passwd -d ${USER}; \
+RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
+  useradd -d ${HOME} -m ${USER} && \
+  passwd -d ${USER} && \
   adduser ${USER} sudo
 
 RUN echo -e '\033[36;1m ******* SELECT USER ******** \033[0m'
@@ -31,11 +31,11 @@ USER ${USER}
 RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
 WORKDIR ${HOME}
 
-RUN echo -e '\033[36;1m ******* ADD REPOSITORY ******** \033[0m'; \
-  curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add -; \
+RUN echo -e '\033[36;1m ******* ADD REPOSITORY ******** \033[0m' && \
+  curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add - && \
   echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee -a /etc/apt/sources.list.d/vscode.list
 
-RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m'; \
+RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m' && \
   sudo apt-get update && sudo apt-get install -y --no-install-recommends \
   code \
   git \
@@ -64,15 +64,15 @@ RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m'; \
   openssh-client \
   php
 
-RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m'; \
+RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m' && \
   sudo easy_install3 pip
 
-RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m'; \
-  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -; \
-  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list'; \
+RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
+  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
+  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list' && \
   sudo apt-get update && sudo apt-get install -y powershell
 
-RUN echo -e '\033[36;1m ******* CLEANING ******** \033[0m'; \
+RUN echo -e '\033[36;1m ******* CLEANING ******** \033[0m' && \
   sudo apt-get --purge autoremove -y \
   curl
 
