@@ -5,7 +5,7 @@ LABEL authors https://www.oda-alexandre.com/
 ENV USER vscode
 ENV HOME /home/${USER}
 ENV LOCALES fr_FR.UTF-8
-ENV VERSION 1.40
+ENV VERSION 1.42
 
 RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
   apt-get update && apt-get install -y --no-install-recommends \
