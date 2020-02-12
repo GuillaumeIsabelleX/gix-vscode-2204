@@ -1,6 +1,6 @@
 # vscode
 
-<img src="https://framalibre.org/sites/default/files/leslogos/Visual_Studio_Code_1.18_icon.png" width="200" height="200"/>
+<img src="https://assets.gitlab-static.net/uploads/-/system/project/avatar/13865455/1200px-Visual_Studio_Code_1.35_icon.svg.png" width="200" height="200"/>
 
 ## INDEX
 
