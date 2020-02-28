@@ -2,7 +2,7 @@ FROM debian:stretch-slim
 
 LABEL authors https://www.oda-alexandre.com
 
-ENV VERSION 1.43.0
+ENV VERSION 1.42.1
 ENV USER vscode
 ENV HOME /home/${USER}
 ENV LOCALES fr_FR.UTF-8
