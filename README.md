@@ -1,20 +1,29 @@
-# vscode
+# VSCODE
 
 <img src="https://assets.gitlab-static.net/uploads/-/system/project/avatar/13865455/1200px-Visual_Studio_Code_1.35_icon.svg.png" width="200" height="200"/>
 
+
 ## INDEX
 
-- [vscode](#vscode)
+- [VSCODE](#vscode)
   - [INDEX](#index)
   - [BADGES](#badges)
+  - [FIRST UPDATE](#first-update)
   - [INTRODUCTION](#introduction)
   - [PREREQUISITES](#prerequisites)
   - [INSTALL](#install)
   - [LICENSE](#license)
 
+
 ## BADGES
 
 [![pipeline status](https://gitlab.com/oda-alexandre/vscode/badges/master/pipeline.svg)](https://gitlab.com/oda-alexandre/vscode/commits/master)
+
+
+## FIRST UPDATE
+
+Date: 01-01-01
+
 
 ## INTRODUCTION
 
