@@ -5,20 +5,15 @@ LABEL authors https://www.oda-alexandre.com
 ENV VERSION 1.42.1
 ENV USER vscode
 ENV HOME /home/${USER}
-ENV LOCALES fr_FR.UTF-8
 
 RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
   apt-get update && apt-get install -y --no-install-recommends \
-  locales \
   sudo \
   ca-certificates \
   apt-transport-https \
   software-properties-common \
   gnupg \
   curl
-
-RUN echo -e '\033[36;1m ******* CHANGE LOCALES ******** \033[0m' && \
-  locale-gen ${LOCALES}
   
 RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
   useradd -d ${HOME} -m ${USER} && \
