@@ -41,7 +41,14 @@ Use [docker](https://www.docker.com)
 ### DOCKER RUN
 
 ```\
-docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY --cap-add=SYS_ADMIN --network host alexandreoda/vscode
+docker run -d \
+--name vscode \
+--network host \
+--cap-add=SYS_ADMIN \
+-e DISPLAY \
+-v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+-v ${HOME}:/home/vscode \
+alexandreoda/vscode
 ```
 
 ### DOCKER COMPOSE
