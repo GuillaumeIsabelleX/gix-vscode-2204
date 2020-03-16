@@ -2,18 +2,18 @@ FROM alexandreoda/starfighter
 
 LABEL authors https://www.oda-alexandre.com
 
-ENV VERSION 1.42.1
 ENV USER vscode
 ENV HOME /home/${USER}
 
-RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
+RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   apt-get update && apt-get install -y --no-install-recommends \
   sudo \
   ca-certificates \
   apt-transport-https \
   software-properties-common \
   gnupg \
-  curl
+  curl && \
+  rm -rf /var/lib/apt/lists/*
   
 RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
   useradd -d ${HOME} -m ${USER} && \
