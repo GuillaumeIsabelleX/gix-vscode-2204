@@ -5,6 +5,10 @@ LABEL authors https://www.oda-alexandre.com
 ENV USER vscode
 ENV HOME /home/${USER}
 
+RUN echo -e '\033[36;1m ******* CONFIG SOURCES DEBIAN ******** \033[0m' && \
+  echo 'deb http://deb.debian.org/debian buster main contrib non-free' > /etc/apt/sources.list && \
+  echo 'deb-src http://deb.debian.org/debian buster main contrib non-free' >> /etc/apt/sources.list
+
 RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   apt-get update && apt-get install -y --no-install-recommends \
   sudo \
@@ -12,27 +16,13 @@ RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   apt-transport-https \
   software-properties-common \
   gnupg \
-  curl && \
-  rm -rf /var/lib/apt/lists/*
-  
-RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
-  useradd -d ${HOME} -m ${USER} && \
-  passwd -d ${USER} && \
-  adduser ${USER} sudo
-
-RUN echo -e '\033[36;1m ******* SELECT USER ******** \033[0m'
-USER ${USER}
-
-RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
-WORKDIR ${HOME}
-
-RUN echo -e '\033[36;1m ******* ADD REPOSITORY ******** \033[0m' && \
-  curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add - && \
-  echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee -a /etc/apt/sources.list.d/vscode.list
-
-RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m' && \
-  sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-  code \
+  gnupg2 \
+  curl \
+  build-essential \
+  dpkg-dev \
+  jetring \
+  dh-make \
+  dirmngr \
   git \
   python3 \
   python3-setuptools \
@@ -59,15 +49,62 @@ RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m' && \
   openssh-client \
   php && \
   rm -rf /var/lib/apt/lists/*
+  
+RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
+  useradd -d ${HOME} -m ${USER} && \
+  passwd -d ${USER} && \
+  adduser ${USER} sudo
+
+RUN echo -e '\033[36;1m ******* SELECT USER ******** \033[0m'
+USER ${USER}
+
+RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
+WORKDIR ${HOME}
+
+RUN echo -e '\033[36;1m ******* ADD SOURCES MICROSOFT ******** \033[0m' && \
+  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
+  sudo apt-add-repository https://packages.microsoft.com/debian/10/prod/ buster main
+
+RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
+  sudo apt-get update && sudo apt-get install -y \
+  code && \
+  rm -rf /var/lib/apt/lists/*
 
 RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m' && \
   sudo easy_install3 pip
 
 RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
-  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
-  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list' && \
-  sudo apt-get update && sudo apt-get install -y powershell && \
-  sudo apt-get --purge autoremove -y curl
+  sudo apt-get update && sudo apt-get install -y \
+  powershell && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN echo -e '\033[36;1m ******* ADD SOURCES DOCKER ******** \033[0m' && \
+  curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - && \
+  sudo apt-add-repository https://download.docker.com/linux/debian buster stable
+
+RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
+  sudo apt-get update && sudo apt-get install -y \
+  docker.ce && \
+  rm -rf /var/lib/apt/lists/*
+
+RUN echo -e '\033[36;1m ******* ACTIVATION SERVICE DOCKER ******** \033[0m' && \
+  sudo systemctl start docker.service && \
+  sudo systemctl enable docker.service
+
+RUN echo -e '\033[36;1m ******* CREATION GROUPE DOCKER ******** \033[0m' && \
+  sudo groupadd -f docker
+
+RUN echo -e '\033[36;1m ******* SECURING RIGHTS SOCK ******** \033[0m' && \
+  sudo chown root:docker /var/run/docker.sock
+
+RUN echo -e '\033[36;1m ******* ADD USER TO GROUP DOCKER ******** \033[0m' && \
+  sudo usermod -a -G docker $USER
+
+RUN echo -e '\033[36;1m ******* SECURISE COMMUNICATIONS INTER CONTENEURS ******** \033[0m' && \
+  echo 'DOCKER_OPTS="-icc=false"' | sudo tee -a /etc/default/docker
+
+RUN echo -e '\033[36;1m ******* REBOOT SERVICE DOCKER ******** \033[0m' && \
+  sudo systemctl restart docker.service
 
 RUN echo -e '\033[36;1m ******* CONTAINER START COMMAND ******** \033[0m'
 ENTRYPOINT /usr/share/code/code \
