@@ -66,8 +66,7 @@ RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
   libxss1 \
   libxtst6 \
   openssh-client \
-  php && \
-  sudo easy_install3 pip
+  php
 
 RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
   echo 'deb https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main' | sudo tee -a /etc/apt/sources.list.d/powershell.list && \
