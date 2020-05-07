@@ -25,6 +25,7 @@ RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   dirmngr \
   git \
   python3 \
+  python3-pip \
   python3-setuptools \
   libasound2 \
   libatk1.0-0 \
@@ -48,7 +49,6 @@ RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   libxtst6 \
   openssh-client \
   php && \
-  easy_install3 pip && \
   rm -rf /var/lib/apt/lists/*
   
 RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
