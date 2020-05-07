@@ -61,28 +61,29 @@ USER ${USER}
 RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
 WORKDIR ${HOME}
 
-RUN echo -e '\033[36;1m ******* ADD SOURCES MICROSOFT ******** \033[0m' && \
-  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
-  echo 'deb https://packages.microsoft.com/debian/10/prod/ buster main' | sudo tee -a /etc/apt/sources.list.d/microsoft.list
+RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m' && \
+  sudo easy_install3 pip
+
+RUN echo -e '\033[36;1m ******* ADD SOURCES KEY MICROSOFT ******** \033[0m' && \
+  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 
 RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
+  echo 'deb https://packages.microsoft.com/repos/vscode stable main' | sudo tee -a /etc/apt/sources.list.d/vscode.list && \
   sudo apt-get update && sudo apt-get install -y \
   code && \
   rm -rf /var/lib/apt/lists/*
 
-RUN echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m' && \
-  sudo easy_install3 pip
-
 RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
+  echo 'deb https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main' | sudo tee -a /etc/apt/sources.list.d/powershell.list && \
   sudo apt-get update && sudo apt-get install -y \
   powershell && \
   rm -rf /var/lib/apt/lists/*
 
-RUN echo -e '\033[36;1m ******* ADD SOURCES DOCKER ******** \033[0m' && \
-  curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - && \
-  echo 'deb https://download.docker.com/linux/debian buster stable' | sudo tee -a /etc/apt/sources.list.d/docker.list
+RUN echo -e '\033[36;1m ******* ADD SOURCES KEY DOCKER ******** \033[0m' && \
+  curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - 
 
 RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
+  echo 'deb https://download.docker.com/linux/debian buster stable' | sudo tee -a /etc/apt/sources.list.d/docker.list && \
   sudo apt-get update && sudo apt-get install -y \
   docker.ce && \
   rm -rf /var/lib/apt/lists/*
