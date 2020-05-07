@@ -22,10 +22,28 @@ RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   dpkg-dev \
   jetring \
   dh-make \
-  dirmngr \
+  dirmngr
+  
+RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
+  useradd -d ${HOME} -m ${USER} && \
+  passwd -d ${USER} && \
+  adduser ${USER} sudo
+
+RUN echo -e '\033[36;1m ******* SELECT USER ******** \033[0m'
+USER ${USER}
+
+RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
+WORKDIR ${HOME}
+
+RUN echo -e '\033[36;1m ******* ADD SOURCES KEY MICROSOFT ******** \033[0m' && \
+  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+
+RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
+  echo 'deb https://packages.microsoft.com/repos/vscode stable main' | sudo tee -a /etc/apt/sources.list.d/vscode.list && \
+  sudo apt-get update && sudo apt-get install -y \
+  code \
   git \
   python3 \
-  python3-pip \
   python3-setuptools \
   libasound2 \
   libatk1.0-0 \
@@ -49,33 +67,12 @@ RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   libxtst6 \
   openssh-client \
   php && \
-  rm -rf /var/lib/apt/lists/*
-  
-RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
-  useradd -d ${HOME} -m ${USER} && \
-  passwd -d ${USER} && \
-  adduser ${USER} sudo
-
-RUN echo -e '\033[36;1m ******* SELECT USER ******** \033[0m'
-USER ${USER}
-
-RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
-WORKDIR ${HOME}
-
-RUN echo -e '\033[36;1m ******* ADD SOURCES KEY MICROSOFT ******** \033[0m' && \
-  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-
-RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
-  echo 'deb https://packages.microsoft.com/repos/vscode stable main' | sudo tee -a /etc/apt/sources.list.d/vscode.list && \
-  sudo apt-get update && sudo apt-get install -y \
-  code && \
-  sudo rm -rf /var/lib/apt/lists/*
+  sudo easy_install3 pip
 
 RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
   echo 'deb https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main' | sudo tee -a /etc/apt/sources.list.d/powershell.list && \
   sudo apt-get update && sudo apt-get install -y \
-  powershell && \
-  sudo rm -rf /var/lib/apt/lists/*
+  powershell
 
 RUN echo -e '\033[36;1m ******* ADD SOURCES KEY DOCKER ******** \033[0m' && \
   curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - 
@@ -83,8 +80,7 @@ RUN echo -e '\033[36;1m ******* ADD SOURCES KEY DOCKER ******** \033[0m' && \
 RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
   echo 'deb https://download.docker.com/linux/debian buster stable' | sudo tee -a /etc/apt/sources.list.d/docker.list && \
   sudo apt-get update && sudo apt-get install -y \
-  docker.ce && \
-  sudo rm -rf /var/lib/apt/lists/*
+  docker.ce
 
 RUN echo -e '\033[36;1m ******* ACTIVATION SERVICE DOCKER ******** \033[0m' && \
   sudo systemctl start docker.service && \
