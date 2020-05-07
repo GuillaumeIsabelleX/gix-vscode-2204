@@ -63,7 +63,7 @@ WORKDIR ${HOME}
 
 RUN echo -e '\033[36;1m ******* ADD SOURCES MICROSOFT ******** \033[0m' && \
   curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
-  sudo apt-add-repository https://packages.microsoft.com/debian/10/prod/ buster main
+  sudo apt-add-repository https://packages.microsoft.com/debian/10/prod
 
 RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
   sudo apt-get update && sudo apt-get install -y \
