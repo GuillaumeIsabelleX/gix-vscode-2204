@@ -10,6 +10,8 @@
   - [INTRODUCTION](#introduction)
   - [PREREQUISITES](#prerequisites)
   - [INSTALL](#install)
+    - [DOCKER RUN](#docker-run)
+    - [DOCKER COMPOSE](#docker-compose)
   - [LICENSE](#license)
 
 ## BADGES
@@ -24,7 +26,7 @@ Docker image of :
 
 Continuous integration on :
 
-- [gitlab](https://gitlab.com/oda-alexandre/vscode/pipelines)
+- [gitlab pipelines](https://gitlab.com/oda-alexandre/vscode/pipelines)
 
 Automatically updated on :
 
@@ -36,7 +38,41 @@ Use [docker](https://www.docker.com)
 
 ## INSTALL
 
-```docker run -d --name vscode -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v ${HOME}:/home/vscode -e DISPLAY --privileged --network host alexandreoda/vscode```
+### DOCKER RUN
+
+```\
+docker run -d \
+--name vscode \
+--network host \
+--cap-add=SYS_ADMIN \
+-e DISPLAY \
+-v /var/run/docker.sock:/var/run/docker.sock
+-v /tmp/.X11-unix/:/tmp/.X11-unix/ \
+-v ${HOME}:/home/vscode \
+alexandreoda/vscode
+```
+
+### DOCKER COMPOSE
+
+```yml
+version: "2.0"
+
+services:
+  vscode:
+    container_name: vscode
+    image: alexandreoda/vscode
+    restart: "no"
+    network_mode: host
+    privileged: false
+    cap_add:
+      - SYS_ADMIN
+    environment:
+      - DISPLAY
+    volumes:
+      - "${HOME}:/home/vscode"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/tmp/.X11-unix:/tmp/.X11-unix"
+```
 
 ## LICENSE
 

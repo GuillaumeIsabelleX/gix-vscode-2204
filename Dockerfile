@@ -2,18 +2,27 @@ FROM debian:stretch-slim
 
 LABEL authors https://www.oda-alexandre.com
 
-ENV VERSION 1.42.1
 ENV USER vscode
 ENV HOME /home/${USER}
 
-RUN echo -e '\033[36;1m ******* INSTALL PACKAGES ******** \033[0m' && \
+RUN echo -e '\033[36;1m ******* CONFIG SOURCES DEBIAN ******** \033[0m' && \
+  echo 'deb http://deb.debian.org/debian stretch main contrib non-free' > /etc/apt/sources.list && \
+  echo 'deb-src http://deb.debian.org/debian stretch main contrib non-free' >> /etc/apt/sources.list
+
+RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   apt-get update && apt-get install -y --no-install-recommends \
   sudo \
   ca-certificates \
   apt-transport-https \
   software-properties-common \
   gnupg \
-  curl
+  gnupg2 \
+  curl \
+  build-essential \
+  dpkg-dev \
+  jetring \
+  dh-make \
+  dirmngr
   
 RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
   useradd -d ${HOME} -m ${USER} && \
@@ -26,12 +35,12 @@ USER ${USER}
 RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
 WORKDIR ${HOME}
 
-RUN echo -e '\033[36;1m ******* ADD REPOSITORY ******** \033[0m' && \
-  curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo apt-key add - && \
-  echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" | sudo tee -a /etc/apt/sources.list.d/vscode.list
+RUN echo -e '\033[36;1m ******* ADD SOURCES KEY MICROSOFT ******** \033[0m' && \
+  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 
-RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m' && \
-  sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
+  echo 'deb https://packages.microsoft.com/repos/vscode stable main' | sudo tee -a /etc/apt/sources.list.d/vscode.list && \
+  sudo apt-get update && sudo apt-get install -y \
   code \
   git \
   python3 \
@@ -57,18 +66,30 @@ RUN echo -e '\033[36;1m ******* INSTALL APP ******** \033[0m' && \
   libxss1 \
   libxtst6 \
   openssh-client \
-  php \
-  && \
-  echo -e '\033[36;1m ******* INSTALL PIP ******** \033[0m' && \
-  sudo easy_install3 pip \
-  && \
-  echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
-  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - && \
-  sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main" > /etc/apt/sources.list.d/microsoft.list' && \
-  sudo apt-get update && sudo apt-get install -y powershell \
-  && \
-  echo -e '\033[36;1m ******* CLEANING ******** \033[0m' && \
-  sudo apt-get --purge autoremove -y curl
+  php && \
+  sudo easy_install3 pip
+
+RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
+  echo 'deb https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main' | sudo tee -a /etc/apt/sources.list.d/powershell.list && \
+  sudo apt-get update && sudo apt-get install -y \
+  powershell
+
+RUN echo -e '\033[36;1m ******* ADD SOURCES DOCKER ******** \033[0m' && \
+  echo 'deb https://download.docker.com/linux/debian buster stable' | sudo tee -a /etc/apt/sources.list.d/docker.list && \
+  curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - 
+
+RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
+  sudo apt-get update && sudo apt-get install -y \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io \
+  docker-compose
+
+RUN echo -e '\033[36;1m ******* CREATION GROUPE DOCKER ******** \033[0m' && \
+  sudo groupadd -f docker
+
+RUN echo -e '\033[36;1m ******* ADD USER TO GROUP DOCKER ******** \033[0m' && \
+  sudo usermod -a -G docker $USER
 
 RUN echo -e '\033[36;1m ******* CONTAINER START COMMAND ******** \033[0m'
 ENTRYPOINT /usr/share/code/code \
