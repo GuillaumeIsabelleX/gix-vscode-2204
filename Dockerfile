@@ -36,7 +36,7 @@ RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
 WORKDIR ${HOME}
 
 RUN echo -e '\033[36;1m ******* ADD PERCISTANCE GIT CREDENTIALS ******** \033[0m' && \
-  git config --global credential.helper 'store --file ~/.my-credentials'
+  git config --global credential.helper 'store --file ${HOME}/.my-credentials'
 
 RUN echo -e '\033[36;1m ******* ADD SOURCES KEY MICROSOFT ******** \033[0m' && \
   curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
