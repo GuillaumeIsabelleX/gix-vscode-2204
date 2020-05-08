@@ -46,6 +46,7 @@ docker run -d \
 --network host \
 --cap-add=SYS_ADMIN \
 -e DISPLAY \
+-v /var/run/docker.sock:/var/run/docker.sock
 -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
 -v ${HOME}:/home/vscode \
 alexandreoda/vscode
@@ -54,7 +55,7 @@ alexandreoda/vscode
 ### DOCKER COMPOSE
 
 ```yml
-version: "3.7"
+version: "2.0"
 
 services:
   vscode:
@@ -69,6 +70,7 @@ services:
       - DISPLAY
     volumes:
       - "${HOME}:/home/vscode"
+      - "/var/run/docker.sock:/var/run/docker.sock"
       - "/tmp/.X11-unix:/tmp/.X11-unix"
 ```
 
