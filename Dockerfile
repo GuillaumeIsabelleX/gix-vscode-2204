@@ -17,13 +17,7 @@ RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
   software-properties-common \
   gnupg \
   gnupg2 \
-  curl \
-  build-essential \
-  dpkg-dev \
-  devscripts \
-  make \
-  dh-make \
-  dirmngr
+  curl
   
 RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
   useradd -d ${HOME} -m ${USER} && \
