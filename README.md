@@ -2,14 +2,11 @@
 
 ![logo](https://assets.gitlab-static.net/uploads/-/system/project/avatar/13865455/1200px-Visual_Studio_Code_1.35_icon.svg.png)
 
-## INDEX
-
 - [VSCODE](#vscode)
-  - [INDEX](#index)
   - [BADGES](#badges)
   - [INTRODUCTION](#introduction)
   - [PREREQUISITES](#prerequisites)
-  - [INSTALL](#install)
+  - [BUILD](#build)
     - [DOCKER RUN](#docker-run)
     - [DOCKER COMPOSE](#docker-compose)
   - [LICENSE](#license)
@@ -36,7 +33,7 @@ Automatically updated on :
 
 Use [docker](https://www.docker.com)
 
-## INSTALL
+## BUILD
 
 ### DOCKER RUN
 
@@ -44,7 +41,6 @@ Use [docker](https://www.docker.com)
 docker run -d \
 --name vscode \
 --network host \
---cap-add=SYS_ADMIN \
 -e DISPLAY \
 -v /var/run/docker.sock:/var/run/docker.sock
 -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
