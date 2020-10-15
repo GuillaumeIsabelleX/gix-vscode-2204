@@ -73,15 +73,8 @@ RUN echo -e '\033[36;1m ******* ADD SOURCES KEY DOCKER ******** \033[0m' && \
   curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - 
 
 RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
-  echo 'deb https://download.docker.com/linux/debian buster stable' | sudo tee -a /etc/apt/sources.list.d/docker.list && \
-  sudo apt-get update && sudo apt-get install -y \
-  docker-ce \
-  docker-ce-cli \
-  containerd.io \
-  docker-compose
-
-RUN echo -e '\033[36;1m ******* ADD GROUPE DOCKER ******** \033[0m' && \
-  sudo groupadd -f docker
+  curl -fsSL https://get.docker.com -o get-docker.sh && \
+  sudo sh get-docker.sh
 
 RUN echo -e '\033[36;1m ******* ADD USER TO GROUP DOCKER ******** \033[0m' && \
   sudo usermod -a -G docker $USER
