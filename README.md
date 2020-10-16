@@ -41,8 +41,9 @@ Use [docker](https://www.docker.com)
 docker run -d \
 --name vscode \
 --network host \
+--privileged \
 -e DISPLAY \
--v /var/run/docker.sock:/var/run/docker.sock
+-v /var/run/docker.sock:/var/run/docker.sock \
 -v /tmp/.X11-unix/:/tmp/.X11-unix/ \
 -v ${HOME}:/home/vscode \
 alexandreoda/vscode
@@ -59,9 +60,7 @@ services:
     image: alexandreoda/vscode
     restart: "no"
     network_mode: host
-    privileged: false
-    cap_add:
-      - SYS_ADMIN
+    privileged: true
     environment:
       - DISPLAY
     volumes:
