@@ -1,23 +1,25 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 
 LABEL authors https://www.oda-alexandre.com
 
 ENV USER vscode
 ENV HOME /home/${USER}
 
-RUN echo -e '\033[36;1m ******* CONFIG SOURCES DEBIAN ******** \033[0m' && \
-  echo 'deb http://deb.debian.org/debian stretch main contrib non-free' > /etc/apt/sources.list && \
-  echo 'deb-src http://deb.debian.org/debian stretch main contrib non-free' >> /etc/apt/sources.list
-
 RUN echo -e '\033[36;1m ******* INSTALL PREREQUISITES ******** \033[0m' && \
-  apt-get update && apt-get install -y --no-install-recommends \
+  apt-get update && apt-get install -y \
   sudo \
   ca-certificates \
-  apt-transport-https \
-  software-properties-common \
   gnupg \
-  gnupg2 \
-  curl
+  git \
+  curl \
+  wget \
+  python3-pip \
+  libgtk-3-dev \
+  libasound2 \
+  libx11-xcb1 \
+  libxcb-dri3-0 \
+  libdrm2 \
+  libgbm1
   
 RUN echo -e '\033[36;1m ******* ADD USER ******** \033[0m' && \
   useradd -d ${HOME} -m ${USER} && \
@@ -30,47 +32,10 @@ USER ${USER}
 RUN echo -e '\033[36;1m ******* SELECT WORKING SPACE ******** \033[0m'
 WORKDIR ${HOME}
 
-RUN echo -e '\033[36;1m ******* ADD SOURCES KEY MICROSOFT ******** \033[0m' && \
-  curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
-
 RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
-  echo 'deb https://packages.microsoft.com/repos/vscode stable main' | sudo tee -a /etc/apt/sources.list.d/vscode.list && \
-  sudo apt-get update && sudo apt-get install -y \
-  code \
-  git \
-  python3 \
-  python3-setuptools \
-  libasound2 \
-  libatk1.0-0 \
-  libcairo2 \
-  libcups2 \
-  libexpat1 \
-  libfontconfig1 \
-  libfreetype6 \
-  libgtk2.0-0 \
-  libpango-1.0-0 \
-  libx11-xcb1 \
-  libxcomposite1 \
-  libxcursor1 \
-  libxdamage1 \
-  libxext6 \
-  libxfixes3 \
-  libxi6 \
-  libxrandr2 \
-  libxrender1 \
-  libxss1 \
-  libxtst6 \
-  openssh-client \
-  php && \
-  sudo easy_install3 pip
-
-RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
-  echo 'deb https://packages.microsoft.com/repos/microsoft-debian-stretch-prod stretch main' | sudo tee -a /etc/apt/sources.list.d/powershell.list && \
-  sudo apt-get update && sudo apt-get install -y \
-  powershell
-
-RUN echo -e '\033[36;1m ******* ADD SOURCES KEY DOCKER ******** \033[0m' && \
-  curl https://download.docker.com/linux/debian/gpg | sudo apt-key add - 
+  wget -O /tmp/vsc.deb https://go.microsoft.com/fwlink/?LinkID=760868 && \
+  sudo apt install -y /tmp/vsc.deb && \
+  rm -f /tmp/vsc.deb
 
 RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
   curl -fsSL https://get.docker.com -o get-docker.sh && \
@@ -80,4 +45,4 @@ RUN echo -e '\033[36;1m ******* ADD USER TO GROUP DOCKER ******** \033[0m' && \
   sudo usermod -a -G docker $USER
 
 RUN echo -e '\033[36;1m ******* CONTAINER START COMMAND ******** \033[0m'
-ENTRYPOINT /usr/share/code/code \
+CMD /usr/share/code/code
