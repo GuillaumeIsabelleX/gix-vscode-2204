@@ -37,6 +37,11 @@ RUN echo -e '\033[36;1m ******* INSTALL VSCODE ******** \033[0m' && \
   sudo apt install -y /tmp/vsc.deb && \
   rm -f /tmp/vsc.deb
 
+RUN echo -e '\033[36;1m ******* INSTALL POWERSHELL ******** \033[0m' && \
+  echo 'deb https://packages.microsoft.com/repos/microsoft-debian-buster-prod buster main' | sudo tee -a /etc/apt/sources.list.d/powershell.list && \
+  sudo apt-get update && sudo apt-get install -y \
+  powershell
+
 RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
   curl -fsSL https://get.docker.com -o get-docker.sh && \
   sudo sh get-docker.sh
