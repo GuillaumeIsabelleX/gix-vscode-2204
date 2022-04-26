@@ -49,5 +49,10 @@ RUN echo -e '\033[36;1m ******* INSTALL DOCKER ******** \033[0m' && \
 RUN echo -e '\033[36;1m ******* ADD USER TO GROUP DOCKER ******** \033[0m' && \
   sudo usermod -a -G docker $USER
 
+USER root
+#@STCGoal Compatible with dkbuilduser (using UID 1000)
+RUN usermod -u 1001 vscode
+
+USER vscode
 RUN echo -e '\033[36;1m ******* CONTAINER START COMMAND ******** \033[0m'
 CMD /usr/share/code/code
