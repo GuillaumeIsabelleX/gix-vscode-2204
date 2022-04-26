@@ -1,0 +1,20 @@
+{
+  "name": "gix-vscode-2204",
+  "version": "1.0.0",
+  "description": "@STCGoal Docker VSCode to build and publish extension",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GuillaumeIsabelleX/gix-vscode-2204.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GuillaumeIsabelleX/gix-vscode-2204/issues"
+  },
+  "homepage": "https://github.com/GuillaumeIsabelleX/gix-vscode-2204#readme"
+}
