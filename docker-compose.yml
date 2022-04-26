@@ -3,7 +3,7 @@ version: "2.0"
 services:
   vscode:
     container_name: vscode
-    image: alexandreoda/vscode
+    image: jgwill/gix:gix-vscode-2204
     restart: "no"
     network_mode: host
     privileged: false

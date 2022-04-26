@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM jgwill/ubuntu:latest
 
 LABEL authors https://www.oda-alexandre.com
 
