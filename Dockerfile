@@ -51,7 +51,8 @@ RUN echo -e '\033[36;1m ******* ADD USER TO GROUP DOCKER ******** \033[0m' && \
 
 USER root
 #@STCGoal Compatible with dkbuilduser (using UID 1000)
-RUN usermod -u 1001 vscode
+#@STCIssue Generalize using dkrun "whoami" in the dkbuilduser
+RUN usermod -u 1001 vscode && chown -R 1001.1000 /home/vscode
 
 USER vscode
 RUN echo -e '\033[36;1m ******* CONTAINER START COMMAND ******** \033[0m'
